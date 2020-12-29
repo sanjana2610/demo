@@ -59,6 +59,27 @@ public class database {
         }
         return json;
     }
+    public static JSONArray getAppliedJobs() {
+        JSONArray json = new JSONArray();
+        try {
+            buildConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(String.format("SELECT * FROM apply ap JOIN jobs js JOIN companies cp ON ap.id = js.job_id and js.company_id = cp.company_id "));
+            ResultSetMetaData rsmd = rs.getMetaData();
+            while (rs.next()) {
+                int numColumns = rsmd.getColumnCount();
+                JSONObject obj = new JSONObject();
+                for (int i = 1; i <= numColumns; i++) {
+                    String column_name = rsmd.getColumnName(i);
+                    obj.put(column_name, rs.getObject(column_name));
+                }
+                json.put(obj);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return json;
+    }
     public static int getUserID(HttpServletRequest request) {
         try {
             HttpSession session = request.getSession(true);
@@ -67,5 +88,53 @@ public class database {
             e.printStackTrace();
             return -1;
         }
+    }
+    public static int addCompany(String name, String description, String location) {
+        try {
+            buildConnection();
+            int result = 0;
+            String INSERT_USERS_SQL = "INSERT INTO companies" +
+                    "  (name,description, location) VALUES " +
+                    " ( ?, ?, ?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL);
+
+            preparedStatement.setString(1, name );
+            preparedStatement.setString(2, description);
+            preparedStatement.setString(3, location);
+
+
+            System.out.println(preparedStatement);
+            // Step 3: Execute the query or update query
+            result = preparedStatement.executeUpdate();
+
+            System.out.println("Inserted Records into Db!");
+            return 1;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
+    public static int applyJob(String id) {
+        try {
+            buildConnection();
+            int result = 0;
+            String INSERT_USERS_SQL = "INSERT INTO apply" +
+                    "  (id) VALUES " +
+                    " ( ?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL);
+
+            preparedStatement.setString(1, id );
+
+
+            System.out.println(preparedStatement);
+            // Step 3: Execute the query or update query
+            result = preparedStatement.executeUpdate();
+
+            System.out.println("Inserted Records into Db!");
+            return 1;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
     }
 }

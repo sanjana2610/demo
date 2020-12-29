@@ -20,4 +20,28 @@
         <servlet-name>jobs</servlet-name>
         <url-pattern>/jobs</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addCompany</servlet-name>
+        <servlet-class>co.sanju.AddCompanyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addCompany</servlet-name>
+        <url-pattern>/addCompany</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>applyJob</servlet-name>
+        <servlet-class>co.sanju.ApplyJobServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>applyJob</servlet-name>
+        <url-pattern>/applyJob</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>appliedJobs</servlet-name>
+        <servlet-class>co.sanju.AppliedJobsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>appliedJobs</servlet-name>
+        <url-pattern>/appliedJobs</url-pattern>
+    </servlet-mapping>
 </web-app>

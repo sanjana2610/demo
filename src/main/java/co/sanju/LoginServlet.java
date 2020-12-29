@@ -22,9 +22,6 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-        System.out.println("email: " + email);
-        System.out.println("password: " + password);
         int userID = database.verifyLogin(email, password);
         if (userID != -1) {
             response.setStatus(200);
